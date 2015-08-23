@@ -1,0 +1,53 @@
+
+#question 1
+X<-rbind(X_test,X_train)
+Y<-rbind(y_test,y_train)
+subject<-rbind(subject_test,subject_train)
+
+
+Sample1<-cbind(Y,X)
+Sample<-cbind(Sample1,subject)
+
+Sample
+
+
+colnames(X,do.NULL=TRUE,prefix="col")
+colnames(X)<-features
+
+features<-features[,-1]
+
+X$Y<-Y
+X$subject<-subject
+
+sample<-X
+#question 2
+names<-names(sample)
+
+names
+
+typeof(names)
+
+mean_sub<-grep("mean()", names)
+std_sub<-grep("std()",names)
+std_sub
+
+mean_and_std<-c(mean_sub,std_sub)
+mean_and_std
+
+mean_and_std<-sort(mean_and_std)
+list(mean_and_std)
+
+meand_and_std<-sample[,mean_and_std]
+
+#question 3
+activity_labels <- read.table("~/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/activity_labels.txt", quote="\"")
+Y[,1]<-activity_labels[Y[,1],2]
+names(Y)<-"activity"
+
+#question 2
+names(subject)<-"subject"
+
+#question 5
+averages <- aggregate(sample, by = list(activity = Y[,1], subject = subject[,1]), mean)
+
+write.table(averages, file="PROJECT.txt", row.names=FALSE)
